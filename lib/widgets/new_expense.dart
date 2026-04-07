@@ -27,6 +27,16 @@ class _NewExpenseState extends State<NewExpense> {
     Navigator.pop(ctx);
   }
 
+  void _openDatePicker() {
+    final now = DateTime.now();
+    showDatePicker(
+      context: context,
+      initialDate: now,
+      firstDate: DateTime(now.year - 1, now.month, now.day),
+      lastDate: now,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -38,13 +48,33 @@ class _NewExpenseState extends State<NewExpense> {
             maxLength: 50,
             decoration: InputDecoration(label: Text('Title')),
           ),
-          TextField(
-            controller: _amountController,
-            keyboardType: TextInputType.number,
-            decoration: InputDecoration(
-              label: Text('Amount'),
-              prefixText: '\$ ',
-            ),
+          Row(
+            children: [
+              Expanded(
+                child: TextField(
+                  controller: _amountController,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    label: Text('Amount'),
+                    prefixText: '\$ ',
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text('Selected Date'),
+                    SizedBox(width: 5),
+                    IconButton(
+                      icon: Icon(Icons.calendar_month),
+                      onPressed: _openDatePicker,
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
           Row(
             children: [
