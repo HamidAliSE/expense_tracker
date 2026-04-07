@@ -23,6 +23,10 @@ class _NewExpenseState extends State<NewExpense> {
     print(_amountController.text);
   }
 
+  void _onPressCancel(BuildContext ctx) {
+    Navigator.pop(ctx);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -44,7 +48,10 @@ class _NewExpenseState extends State<NewExpense> {
           ),
           Row(
             children: [
-              TextButton(onPressed: () {}, child: Text('Cancel')),
+              TextButton(
+                onPressed: () => _onPressCancel(context),
+                child: Text('Cancel'),
+              ),
               ElevatedButton(
                 onPressed: _onPressSaveExpense,
                 child: Text('Save Expense'),
