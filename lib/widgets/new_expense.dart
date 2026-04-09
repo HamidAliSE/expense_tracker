@@ -23,8 +23,31 @@ class _NewExpenseState extends State<NewExpense> {
   }
 
   void _onPressSaveExpense() {
-    print(_titleController.text);
-    print(_amountController.text);
+    final double? amountEntered = double.tryParse(_amountController.text);
+    final bool isInvalidAmount = amountEntered == null || amountEntered <= 0;
+
+    if (_titleController.text.trim().isEmpty ||
+        isInvalidAmount ||
+        _selectedDate == null) {
+      showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: Text('Invalid Expense Data!'),
+          content: Text(
+            'Please make sure a valid title, amount, date & category is entered.',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(ctx);
+              },
+              child: Text('OK'),
+            ),
+          ],
+        ),
+      );
+      return;
+    }
   }
 
   void _onPressCancel(BuildContext ctx) {
