@@ -12,6 +12,7 @@ class NewExpense extends StatefulWidget {
 class _NewExpenseState extends State<NewExpense> {
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
+  Category _selectedCategory = Category.work;
   DateTime? _selectedDate;
 
   @override
@@ -41,6 +42,15 @@ class _NewExpenseState extends State<NewExpense> {
 
     setState(() {
       _selectedDate = datePicked;
+    });
+  }
+
+  void _onChangeCategory(Category? value) {
+    if (value == null) {
+      return;
+    }
+    setState(() {
+      _selectedCategory = value;
     });
   }
 
@@ -87,8 +97,22 @@ class _NewExpenseState extends State<NewExpense> {
               ),
             ],
           ),
+          SizedBox(height: 20),
           Row(
             children: [
+              DropdownButton(
+                value: _selectedCategory,
+                items: Category.values
+                    .map(
+                      (category) => DropdownMenuItem(
+                        value: category,
+                        child: Text(category.name.toUpperCase()),
+                      ),
+                    )
+                    .toList(),
+                onChanged: _onChangeCategory,
+              ),
+              Spacer(),
               TextButton(
                 onPressed: () => _onPressCancel(context),
                 child: Text('Cancel'),
